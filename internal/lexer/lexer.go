@@ -10,7 +10,11 @@ func Tokenize(data []byte) {
 
 	lines := strings.Split(source, "\n")
 
-	for line := range lines {
-		fmt.Println(line)
+	for _, line := range lines {
+		segments := strings.Split(string(line), " ")
+		
+		for _, segment := range segments {
+			fmt.Println(segment)
+		}
 	}
 }
