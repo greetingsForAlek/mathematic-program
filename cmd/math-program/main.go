@@ -3,6 +3,8 @@ package main
 import (
 	"os"
 	"fmt"
+
+	"github.com/greetingsForAlek/MathematicProgram/internal/lexer"
 )
 
 func main() {
@@ -11,5 +13,5 @@ func main() {
 		fmt.Println("Error reading file: ", err)
 	}
 
-	fmt.Println(data)
+	lexer.Tokenize(data)
 }
