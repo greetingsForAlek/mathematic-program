@@ -1,8 +1,16 @@
 package lexer
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func Tokenize(data []byte) {
 	source := string(data)
-	fmt.Println(source)
+
+	lines := strings.Split(source, "\n")
+
+	for line := range lines {
+		fmt.Println(line)
+	}
 }
