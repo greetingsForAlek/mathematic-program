@@ -10,16 +10,16 @@ func Tokenize(data []byte) {
 
 	lines := strings.Split(source, "\n")
 
-	for _, line := range lines {
+	for lineNum, line := range lines {
 		segments := strings.Split(string(line), " ")
 		
 		for _, segment := range segments {
-			isNumber(segment)
+			isNumber(segment, lineNum)
 		}
 	}
 }
 
-func isNumber(char string) {
+func isNumber(char string, lineNum int) {
 	if char == "0" || 
 	char == "1" || 
 	char == "2" || 
@@ -32,11 +32,11 @@ func isNumber(char string) {
 	char == "9" {
 		fmt.Println("char is a number.")
 	} else {
-		isOperator(char)
+		isOperator(char, lineNum)
 	}
 }
 
-func isOperator(char string) {
+func isOperator(char string, lineNum int) {
 	switch char {
 	case "+":
 		fmt.Println("Addition Operator")
@@ -48,5 +48,22 @@ func isOperator(char string) {
 		fmt.Println("Division Operator")
 	case "%":
 		fmt.Println("Modulus Operator")
+	default:
+		isSpecial(char, lineNum)
+	}
+}
+
+func isSpecial(char string, lineNum int) {
+	switch char {
+	case "|":
+		fmt.Println("Pipe Result")
+	case "!":
+		fmt.Println("Output Result")
+	case "?":
+		fmt.Println("Piped Result")
+	case "&":
+		fmt.Println("Sleep")
+	default:
+		fmt.Println("Unrecognised character:", char, "on line", lineNum)
 	}
 }
