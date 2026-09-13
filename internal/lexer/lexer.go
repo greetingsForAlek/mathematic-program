@@ -2,6 +2,7 @@ package lexer
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -104,6 +105,7 @@ func isSpecial(char string, lineNum int) Token {
 		}
 	default:
 		fmt.Println("Unrecognised character:", char, "on line", lineNum)
+		os.Exit(1)
 	}
 
 	return token
