@@ -14,12 +14,15 @@ func Tokenize(data []byte) {
 		segments := strings.Split(string(line), " ")
 		
 		for _, segment := range segments {
-			isNumber(segment, lineNum)
+			token := isNumber(segment, lineNum)
+
+			fmt.Println(token)
 		}
 	}
 }
 
-func isNumber(char string, lineNum int) {
+func isNumber(char string, lineNum int) Token {
+	var token Token
 	if char == "0" || 
 	char == "1" || 
 	char == "2" || 
@@ -30,40 +33,78 @@ func isNumber(char string, lineNum int) {
 	char == "7" || 
 	char == "8" || 
 	char == "9" {
-		fmt.Println("char is a number.")
+		token = Token {
+			Type: NUMBER,
+			Value: char,
+		}
 	} else {
-		isOperator(char, lineNum)
+		token = isOperator(char, lineNum)
 	}
+
+	return token
 }
 
-func isOperator(char string, lineNum int) {
+func isOperator(char string, lineNum int) Token {
+	var token Token
 	switch char {
 	case "+":
-		fmt.Println("Addition Operator")
+		token = Token {
+			Type: PLUS,
+			Value: char,
+		}
 	case "-":
-		fmt.Println("Subtraction Operator")
+		token = Token {
+			Type: MINUS,
+			Value: char,
+		}
 	case "*":
-		fmt.Println("Multiplication Operator")
+		token = Token {
+			Type: MULTIPLY,
+			Value: char,
+		}
 	case "/":
-		fmt.Println("Division Operator")
+		token = Token {
+			Type: DIVIDE,
+			Value: char,
+		}
 	case "%":
-		fmt.Println("Modulus Operator")
+		token = Token {
+			Type: MODULUS,
+			Value: char,
+		}
 	default:
-		isSpecial(char, lineNum)
+		token = isSpecial(char, lineNum)
 	}
+
+	return token
 }
 
-func isSpecial(char string, lineNum int) {
+func isSpecial(char string, lineNum int) Token {
+	var token Token
 	switch char {
 	case "|":
-		fmt.Println("Pipe Result")
+		token = Token {
+			Type: PIPE_RESULT,
+			Value: char,
+		}
 	case "!":
-		fmt.Println("Output Result")
+		token = Token {
+			Type: OUTPUT_RESULT,
+			Value: char,
+		}
 	case "?":
-		fmt.Println("Piped Result")
+		token = Token {
+			Type: PIPED,
+			Value: char,
+		}
 	case "&":
-		fmt.Println("Sleep")
+		token = Token {
+			Type: SLEEP,
+			Value: char,
+		}
 	default:
 		fmt.Println("Unrecognised character:", char, "on line", lineNum)
 	}
+
+	return token
 }

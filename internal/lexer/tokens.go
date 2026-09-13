@@ -19,3 +19,8 @@ const (
 	OUTPUT_RESULT TokenType = "OUTPUT_RESULT"
 	SLEEP TokenType = "SLEEP"
 )
+
+type Token struct {
+	Type TokenType
+	Value string
+}
