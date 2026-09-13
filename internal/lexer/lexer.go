@@ -6,20 +6,28 @@ import (
 	"strings"
 )
 
-func Tokenize(data []byte) {
+func Tokenize(data []byte) [][]Token {
+	var programTokens [][]Token
+
 	source := string(data)
 
 	lines := strings.Split(source, "\n")
 
 	for lineNum, line := range lines {
+		var lineTokens []Token
+
 		segments := strings.Split(string(line), " ")
 		
 		for _, segment := range segments {
 			token := isNumber(segment, lineNum)
 
-			fmt.Println(token)
+			lineTokens = append(lineTokens, token)
 		}
+
+		programTokens = append(programTokens, lineTokens)
 	}
+
+	return programTokens
 }
 
 func isNumber(char string, lineNum int) Token {
