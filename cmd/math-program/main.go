@@ -13,5 +13,6 @@ func main() {
 		fmt.Println("Error reading file: ", err)
 	}
 
-	lexer.Tokenize(data)
+	tokens := lexer.Tokenize(data)
+	fmt.Println(tokens)
 }
