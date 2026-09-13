@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/greetingsForAlek/MathematicProgram/internal/lexer"
+	"github.com/greetingsForAlek/MathematicProgram/internal/parser"
 )
 
 func main() {
@@ -14,5 +15,5 @@ func main() {
 	}
 
 	tokens := lexer.Tokenize(data)
-	fmt.Println(tokens)
+	parser.Parse(tokens)
 }
