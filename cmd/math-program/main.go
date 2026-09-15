@@ -12,8 +12,15 @@ func main() {
 	data, err := os.ReadFile("./main.mp")
 	if (err != nil) {
 		fmt.Println("Error reading file: ", err)
+		os.Exit(1)
 	}
 
 	tokens := lexer.Tokenize(data)
-	parser.Parse(tokens)
+	operations, err := parser.Parse(tokens)
+	if (err != nil) {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	fmt.Println(operations)
 }
