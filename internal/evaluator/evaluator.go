@@ -27,7 +27,32 @@ func Evaluate(operations []parser.Operation) ([]float64, error) {
 }
 
 func evaluateOperation(operation parser.Operation, previousResult float64) (float64, error) {
-	return 10.0, nil // i lied i need to do smt first
+	left, err := resolveOperand(operation.Left, previousResult)
+	if err != nil {
+		return 0, err
+	}
+
+	right, err := resolveOperand(operation.Right, previousResult)
+	if err != nil {
+		return 0, err
+	}
+
+	switch operation.Opertator {
+	case "+":
+		return left + right, nil
+	case "-":
+		return left - right, nil
+	case "*":
+		return left * right, nil
+	case "/":
+		if right == 0 {
+			return 0, fmt.Errorf("Division by Zero")
+		}
+
+		return left / right, nil
+	default:
+		return 0, fmt.Errorf("unknown operator: %s", operation.Opertator)
+	}
 }
 
 func resolveOperand(operand parser.Operand, previousResult float64) (float64, error) {
