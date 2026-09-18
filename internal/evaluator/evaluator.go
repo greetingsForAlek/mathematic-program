@@ -7,32 +7,52 @@ import (
 	"github.com/greetingsForAlek/MathematicProgram/internal/parser"
 )
 
-func Evaluate(operations []parser.Operation) ([]float64, error) {
+func Evaluate(operations []parser.Operation) ([]float64, error) {	
 	results := make([]float64, 0, len(operations))
 
-	var previousResult float64
+	var pipedResult float64
+	hasPipedResult := false
 
 	for _, operation := range operations {
-		result, err := evaluateOperation(operation, previousResult)
+		result, err := evaluateOperation(
+			operation,
+			pipedResult,
+			hasPipedResult,
+		)
 
 		if err != nil {
 			return nil, err
 		}
 
 		results = append(results, result)
-		previousResult = result
+
+		if operation.Pipe {
+			pipedResult = result
+			hasPipedResult = true
+		} else {
+			hasPipedResult = false
+		}
 	}
 
 	return results, nil
 }
 
-func evaluateOperation(operation parser.Operation, previousResult float64) (float64, error) {
-	left, err := resolveOperand(operation.Left, previousResult)
+func evaluateOperation(operation parser.Operation, previousResult float64, hasPipedResult bool) (float64, error) {
+	left, err := resolveOperand(
+		operation.Left,
+		previousResult,
+		hasPipedResult,
+	)
 	if err != nil {
 		return 0, err
 	}
 
-	right, err := resolveOperand(operation.Right, previousResult)
+	right, err := resolveOperand(
+		operation.Right,
+		previousResult,
+		hasPipedResult,
+	)
+
 	if err != nil {
 		return 0, err
 	}
@@ -40,29 +60,35 @@ func evaluateOperation(operation parser.Operation, previousResult float64) (floa
 	switch operation.Opertator {
 	case "+":
 		return left + right, nil
+
 	case "-":
 		return left - right, nil
+
 	case "*":
 		return left * right, nil
-	case "/":
-		if right == 0 {
-			return 0, fmt.Errorf("Division by Zero")
-		}
 
+	case "/":
 		return left / right, nil
+
 	default:
 		return 0, fmt.Errorf("unknown operator: %s", operation.Opertator)
 	}
 }
 
-func resolveOperand(operand parser.Operand, previousResult float64) (float64, error) {
+func resolveOperand(operand parser.Operand, previousResult float64, hasPipedResult bool) (float64, error) {
 	if operand.Previous {
+		if !hasPipedResult {
+			return 0, fmt.Errorf(
+				"cannot use '?' because the previous line did not pipe a result",
+			)
+		}
+
 		return previousResult, nil
 	}
 
 	value, err := strconv.ParseFloat(operand.Value, 64)
 	if err != nil {
-		return 0, fmt.Errorf("invalid number: %s", operand.Value)
+		return 0, fmt.Errorf("invalid number %s", operand.Value)
 	}
 
 	return value, nil
