@@ -68,6 +68,10 @@ func evaluateOperation(operation parser.Operation, previousResult float64, hasPi
 		return left * right, nil
 
 	case "/":
+		if right == 0 {
+			return 0, fmt.Errorf("division by zero")
+		}
+
 		return left / right, nil
 
 	default:
