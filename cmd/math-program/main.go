@@ -6,6 +6,7 @@ import (
 
 	"github.com/greetingsForAlek/MathematicProgram/internal/lexer"
 	"github.com/greetingsForAlek/MathematicProgram/internal/parser"
+	"github.com/greetingsForAlek/MathematicProgram/internal/evaluator"
 )
 
 func main() {
@@ -22,5 +23,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println(operations)
+	result, err := evaluator.Evaluate(operations)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(result)
 }
