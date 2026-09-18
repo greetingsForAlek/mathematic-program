@@ -24,7 +24,7 @@ func Parse(lines [][]lexer.Token) ([]Operation, error) {
 
 func parseLine(line []lexer.Token) (Operation, error) {
 	if len(line) < 3 {
-		return Operation{}, fmt.Errorf("Invalid Operation.")
+		return Operation{}, fmt.Errorf("Invalid Operation")
 	}
 
 	left := Operand {
@@ -46,9 +46,18 @@ func parseLine(line []lexer.Token) (Operation, error) {
 	}
 
 	pipe := false
-	if len(line) > 3 {
-		if line[3].Type == lexer.PIPE_RESULT {
+	output := false
+
+	for _, token := range line[3:] {
+		switch token.Type {
+		case lexer.PIPE_RESULT:
 			pipe = true
+		
+		case lexer.OUTPUT_RESULT:
+			output = true
+
+		default:
+			return Operation{}, fmt.Errorf("Unexpected token: %s", token.Value)
 		}
 	}
 
@@ -57,6 +66,6 @@ func parseLine(line []lexer.Token) (Operation, error) {
 		Opertator: operator,
 		Right: right,
 		Pipe: pipe,
-		Output: false,
+		Output: output,
 	}, nil
 }
