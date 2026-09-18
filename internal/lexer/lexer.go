@@ -3,6 +3,7 @@ package lexer
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -31,26 +32,16 @@ func Tokenize(data []byte) [][]Token {
 }
 
 func isNumber(char string, lineNum int) Token {
-	var token Token
-	if char == "0" || 
-	char == "1" || 
-	char == "2" || 
-	char == "3" || 
-	char == "4" || 
-	char == "5" || 
-	char == "6" || 
-	char == "7" || 
-	char == "8" || 
-	char == "9" {
-		token = Token {
+	_, err := strconv.Atoi(char)
+
+	if err == nil {
+		return Token {
 			Type: NUMBER,
 			Value: char,
 		}
-	} else {
-		token = isOperator(char, lineNum)
 	}
 
-	return token
+	return isOperator(char, lineNum)
 }
 
 func isOperator(char string, lineNum int) Token {
