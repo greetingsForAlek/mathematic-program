@@ -24,6 +24,10 @@ func Evaluate(operations []parser.Operation) ([]float64, error) {
 			return nil, err
 		}
 
+		if operation.Output {
+			fmt.Println(result)
+		}
+
 		results = append(results, result)
 
 		if operation.Pipe {

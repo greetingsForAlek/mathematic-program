@@ -23,10 +23,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	result, err := evaluator.Evaluate(operations)
+	_, err = evaluator.Evaluate(operations)
 	if err != nil {
 		fmt.Println(err)
 	}
-
-	fmt.Println(result)
 }
