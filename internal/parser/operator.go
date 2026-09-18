@@ -10,4 +10,5 @@ type Operation struct {
 	Left Operand
 	Right Operand
 	Pipe bool
+	Output bool
 }

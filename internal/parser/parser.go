@@ -57,5 +57,6 @@ func parseLine(line []lexer.Token) (Operation, error) {
 		Opertator: operator,
 		Right: right,
 		Pipe: pipe,
+		Output: false,
 	}, nil
 }
