@@ -102,6 +102,12 @@ func isSpecial(char string, lineNum int) Token {
 			Type: SLEEP,
 			Value: char,
 		}
+
+	case "@":
+		token = Token {
+			Type: INPUT,
+			Value: char,
+		}
 	default:
 		fmt.Println("Unrecognised character:", char, "on line", lineNum)
 		os.Exit(1)

@@ -18,6 +18,7 @@ const (
 	PIPED TokenType = "PIPED"
 	OUTPUT_RESULT TokenType = "OUTPUT_RESULT"
 	SLEEP TokenType = "SLEEP"
+	INPUT TokenType = "INPUT"
 )
 
 type Token struct {
