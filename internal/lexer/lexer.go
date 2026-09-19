@@ -32,7 +32,7 @@ func Tokenize(data []byte) [][]Token {
 }
 
 func isNumber(char string, lineNum int) Token {
-	_, err := strconv.Atoi(char)
+	_, err := strconv.ParseFloat(char, 64)
 
 	if err == nil {
 		return Token {
