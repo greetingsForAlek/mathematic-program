@@ -11,4 +11,6 @@ type Operation struct {
 	Right Operand
 	Pipe bool
 	Output bool
+	Sleep bool
+	SleepTime int
 }

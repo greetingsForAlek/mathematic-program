@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/greetingsForAlek/MathematicProgram/internal/lexer"
 )
@@ -23,6 +24,26 @@ func Parse(lines [][]lexer.Token) ([]Operation, error) {
 }
 
 func parseLine(line []lexer.Token) (Operation, error) {
+	if line[0].Type == lexer.SLEEP {
+		if len(line) != 2 {
+			return Operation{}, fmt.Errorf("Invalid sleep operation.")
+		}
+
+		if line[1].Type != lexer.NUMBER {
+			return Operation{}, fmt.Errorf("Sleep duration must be a number.")
+		}
+
+		duration, err := strconv.Atoi(line[1].Value)
+		if err != nil {
+			return Operation{}, fmt.Errorf("Invalid sleep duration: %s", line[1].Value)
+		}
+
+		return Operation {
+			Sleep: true,
+			SleepTime: duration,
+		}, nil
+	}
+
 	if len(line) < 3 {
 		return Operation{}, fmt.Errorf("Invalid Operation")
 	}
@@ -67,5 +88,7 @@ func parseLine(line []lexer.Token) (Operation, error) {
 		Right: right,
 		Pipe: pipe,
 		Output: output,
+		Sleep: false,
+		SleepTime: 0,
 	}, nil
 }
