@@ -3,6 +3,7 @@ package evaluator
 import (
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/greetingsForAlek/MathematicProgram/internal/parser"
 )
@@ -14,6 +15,11 @@ func Evaluate(operations []parser.Operation) ([]float64, error) {
 	hasPipedResult := false
 
 	for _, operation := range operations {
+		if operation.Sleep {
+			time.Sleep(time.Duration(operation.SleepTime) * time.Millisecond)
+			continue
+		}
+
 		result, err := evaluateOperation(
 			operation,
 			pipedResult,
